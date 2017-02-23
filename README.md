@@ -10,11 +10,27 @@ composer require chris-moreton/oauth-server-php-client
 Usage
 -----
 
+    $client = new Client();
+
 ## oAuth2 Password grant
 
-    $client = new Client();
-    $response = $client->passwordGrant($username, $password, $clientSecret, $scope);
+    $response = $client->passwordGrant($email, $password, $clientId, $clientSecret, $scope);
     
+## Client Credentials Grant
+
+	$response = $client->clientGrant($clientId, $clientSecret, $scope);
+      
+## Password Check
+
+	$response = $client->verifyPassword($email, $password);
+
+## Create User
+
+	$response = $client->createUser(['email'=>'test@example.com', 'name'=>'Test', 'password'=>'secret']);
+	  
+## Get User Details
+
+## Update User
 
 Development
 -----------
