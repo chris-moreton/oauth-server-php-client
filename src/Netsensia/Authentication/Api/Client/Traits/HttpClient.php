@@ -1,7 +1,7 @@
 <?php
 namespace Netsensia\Authentication\Api\Client\Traits;
 
-use Netsensia\Authentication\Api\Client\Common\Guzzle\Client as GuzzleClient;
+use GuzzleHttp\Client as GuzzleClient;
 
 trait HttpClient
 {
@@ -57,6 +57,22 @@ trait HttpClient
         $this->apiKey = $apiKey;
     }
 
+    /**
+     * @return the $apiBaseUri
+     */
+    public function getApiBaseUri()
+    {
+        return $this->apiBaseUri;
+    }
+    
+    /**
+     * @param string $apiBaseUri
+     */
+    public function setApiBaseUri($apiBaseUri)
+    {
+        $this->apiBaseUri = $apiBaseUri;
+    }
+    
     /**
      * Returns the GuzzleClient.
      *

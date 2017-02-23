@@ -3,27 +3,12 @@ namespace Netsensia\Authentication\Api\Client;
 
 use GuzzleHttp\Message\Response;
 use Netsensia\Authentication\Api\Client\Traits\HttpClient;
+use GuzzleHttp\Client as GuzzleClient;
 
-class Client
+class Client extends GuzzleClient
 {
     use HttpClient;
     
-    /**
-     * @return the $apiBaseUri
-     */
-    public function getApiBaseUri()
-    {
-        return $this->apiBaseUri;
-    }
-
-    /**
-     * @param string $apiBaseUri
-     */
-    public function setApiBaseUri($apiBaseUri)
-    {
-        $this->apiBaseUri = $apiBaseUri;
-    }
-
     /**
     * oAuth2 Password Grant
     * 
