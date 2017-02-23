@@ -18,7 +18,17 @@ class ClientSpec extends ObjectBehavior
         $this->passwordGrant(
             config('USERNAME'),
             config('PASSWORD'),
+            config('PASSWORD_GRANT_CLIENT_ID'),
             config('PASSWORD_GRANT_CLIENT_SECRET')
+        )->shouldBeAnObjectContainingKeyAndValue('token_type', 'Bearer');
+    }
+    
+    function it_can_get_a_bearer_token_using_client_credentials_grant()
+    {
+        $this->beConstructedWith(config('OAUTH_SERVER_URI'));
+        $this->clientCredentialsGrant(
+            config('CLIENT_CREDENTIALS_GRANT_CLIENT_ID'),
+            config('CLIENT_CREDENTIALS_GRANT_CLIENT_SECRET')
         )->shouldBeAnObjectContainingKeyAndValue('token_type', 'Bearer');
     }
     

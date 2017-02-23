@@ -31,19 +31,48 @@ class Client
     * 
     * @return boolean|mixed
     */
-    public function passwordGrant($username, $password, $clientSecret, $scope = '*')
+    public function passwordGrant($username, $password, $clientId, $clientSecret, $scope = '*')
     {
         $response = $this->client()->request('POST', $this->apiBaseUri . '/oauth/token', $this->opts([
             'form_params' => [
                 'grant_type' => 'password',
                 'username' => $username,
                 'password' => $password,
-                'client_id' => 2,
+                'client_id' => $clientId,
                 'client_secret' => $clientSecret,
                 'scope' => $scope,
             ],
         ]));
 
+        if( $response->getStatusCode() != 200 ){
+            return $this->log($response, false);
+        }
+    
+        $jsonDecode = json_decode($response->getBody());
+    
+        $this->log($response, true);
+    
+        return $jsonDecode;
+    }
+    
+    /**
+     * oAuth2 Client Grant
+     *
+     * /oauth/token
+     *
+     * @return boolean|mixed
+     */
+    public function clientCredentialsGrant($clientId, $clientSecret, $scope = '*')
+    {
+        $response = $this->client()->request('POST', $this->apiBaseUri . '/oauth/token', $this->opts([
+            'form_params' => [
+                'grant_type' => 'client_credentials',
+                'client_id' => $clientId,
+                'client_secret' => $clientSecret,
+                'scope' => $scope,
+            ],
+        ]));
+    
         if( $response->getStatusCode() != 200 ){
             return $this->log($response, false);
         }
