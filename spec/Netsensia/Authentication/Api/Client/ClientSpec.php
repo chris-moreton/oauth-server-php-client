@@ -31,34 +31,46 @@ class ClientSpec extends ObjectBehavior
             config('CLIENT_CREDENTIALS_GRANT_CLIENT_SECRET')
         )->shouldBeAnObjectContainingKeyAndValue('token_type', 'Bearer');
     }
+        
+    function it_can_get_the_token_details()
+    {
+        $this->beConstructedWith(config('OAUTH_SERVER_URI'), config('ADMIN_SCOPE_TOKEN'));
+        $this->tokenDetails()->shouldBeAnObjectContainingKeyAndValue('email', config('USERNAME'));
+    }
     
     function it_can_get_user_details_from_an_email_address()
     {
-        $this->beConstructedWith(config('OAUTH_SERVER_URI'));
+        $this->beConstructedWith(config('OAUTH_SERVER_URI'), config('ADMIN_SCOPE_TOKEN'));
         $this->getUserDetails(config('USERNAME'))->shouldBeAnObjectContainingKeyAndValue('id', config('USER_ID'));
     }
 
     function it_can_get_user_details_from_an_id()
     {
-        $this->beConstructedWith(config('OAUTH_SERVER_URI'));
+        $this->beConstructedWith(config('OAUTH_SERVER_URI'), config('ADMIN_SCOPE_TOKEN'));
         $this->getUserDetails(config('USER_ID'))->shouldBeAnObjectContainingKeyAndValue('email', config('USERNAME'));
     }
 
+    function it_will_fail_to_get_user_details_if_token_does_not_have_admin_scope()
+    {
+        $this->beConstructedWith(config('OAUTH_SERVER_URI'), config('USER_SCOPE_TOKEN'));
+        $this->shouldThrow('GuzzleHttp\Exception\ClientException')->during('getUserDetails', [config('USER_ID')]);
+    }
+    
     function it_can_verify_a_user_password()
     {
-        $this->beConstructedWith(config('OAUTH_SERVER_URI'));
+        $this->beConstructedWith(config('OAUTH_SERVER_URI'), config('ADMIN_SCOPE_TOKEN'));
         $this->verifyPassword(config('USERNAME'), config('PASSWORD'))->shouldBeAnObjectContainingKeyAndValue('verified', true);
     }
     
     function it_can_find_that_a_user_password_is_wrong()
     {
-        $this->beConstructedWith(config('OAUTH_SERVER_URI'));
+        $this->beConstructedWith(config('OAUTH_SERVER_URI'), config('ADMIN_SCOPE_TOKEN'));
         $this->verifyPassword(config('USERNAME'), 'qweqwe')->shouldBeAnObjectContainingKeyAndValue('verified', false);
     }
     
     function it_can_update_a_user_remember_token()
     {
-        $this->beConstructedWith(config('OAUTH_SERVER_URI'));
+        $this->beConstructedWith(config('OAUTH_SERVER_URI'), config('ADMIN_SCOPE_TOKEN'));
         $r = md5(rand(0, PHP_INT_MAX));
         $this->updateUserDetails(config('USER_ID'), [
             'remember_token' => $r,
@@ -67,7 +79,7 @@ class ClientSpec extends ObjectBehavior
     
     function it_will_report_an_attempt_to_update_an_invalid_user_field()
     {
-        $this->beConstructedWith(config('OAUTH_SERVER_URI'));
+        $this->beConstructedWith(config('OAUTH_SERVER_URI'), config('ADMIN_SCOPE_TOKEN'));
         $this->shouldThrow('GuzzleHttp\Exception\ClientException')->during('updateUserDetails', [config('USER_ID'), [
             'remembers_token' => 123,
         ]]);
@@ -75,7 +87,7 @@ class ClientSpec extends ObjectBehavior
     
     function it_will_report_an_attempt_to_update_an_invalid_user()
     {
-        $this->beConstructedWith(config('OAUTH_SERVER_URI'));
+        $this->beConstructedWith(config('OAUTH_SERVER_URI'), config('ADMIN_SCOPE_TOKEN'));
         $this->shouldThrow('GuzzleHttp\Exception\ClientException')->during('updateUserDetails', [-1, [
             'remember_token' => 123,
         ]]);
@@ -83,7 +95,7 @@ class ClientSpec extends ObjectBehavior
     
     function it_can_create_a_new_user()
     {
-        $this->beConstructedWith(config('OAUTH_SERVER_URI'));
+        $this->beConstructedWith(config('OAUTH_SERVER_URI'), config('ADMIN_SCOPE_TOKEN'));
         $time = time();
         $username = 'User' . $time;
         $this->createUser([
@@ -95,7 +107,7 @@ class ClientSpec extends ObjectBehavior
 
     function it_will_report_an_attempt_to_create_a_user_with_an_invalid_field()
     {
-        $this->beConstructedWith(config('OAUTH_SERVER_URI'));
+        $this->beConstructedWith(config('OAUTH_SERVER_URI'), config('ADMIN_SCOPE_TOKEN'));
         $time = time();
         $this->shouldThrow('GuzzleHttp\Exception\ClientException')->during('createUser', [[
             'names' => 'User' . $time, 

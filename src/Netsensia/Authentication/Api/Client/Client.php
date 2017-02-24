@@ -173,4 +173,26 @@ class Client extends GuzzleClient
     
         return $jsonDecode;
     }
+    
+    /**
+     * Token details
+     *
+     * Get the user details and scopes of the currently-set token
+     *
+     * @return boolean|mixed
+     */
+    public function tokenDetails()
+    {
+        $response = $this->client()->request('GET', $this->apiBaseUri . '/v1/token-details', $this->opts([]));
+    
+        if( $response->getStatusCode() != 200 ){
+            return $this->log($response, false);
+        }
+    
+        $jsonDecode = json_decode($response->getBody());
+    
+        $this->log($response, true);
+    
+        return $jsonDecode;
+    }    
 }

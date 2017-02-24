@@ -96,11 +96,18 @@ trait HttpClient
                 ['headers' => [
                         'Authorization' => 'Bearer ' . $this->apiKey,
                         'Content-Type' => 'application/json',
+                        'Accept' => 'application/json',
                     ]
                 ]
             );
         } else {
-            return $options;
+            return array_merge(
+                $options,
+                ['headers' => [
+                        'Accept' => 'application/json',
+                    ]
+                ]
+            );
         }
     }
     
