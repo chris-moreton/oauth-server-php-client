@@ -29,7 +29,7 @@ class Client extends GuzzleClient
             ],
         ], false));
 
-        if( $response->getStatusCode() != 200 ){
+        if( $response->getStatusCode() != 200 ) {
             return $this->log($response, false);
         }
     

@@ -34,6 +34,17 @@ class ClientSpec extends ObjectBehavior
             )->shouldBeAnObjectContainingKeyAndValue('token_type', 'Bearer');
     }
     
+    function it_will_return_false_on_password_grant_if_credentials_are_incorrect()
+    {
+        $this->beConstructedWith(config('OAUTH_SERVER_URI'));
+        $this->passwordGrant(
+            config('USERNAME'),
+            config('PASSWORD') . 'wrong',
+            config('PASSWORD_GRANT_CLIENT_ID'),
+            config('PASSWORD_GRANT_CLIENT_SECRET')
+        )->shouldBe(false);
+    }
+    
     function it_can_get_a_bearer_token_using_client_credentials_grant()
     {
         $this->beConstructedWith(config('OAUTH_SERVER_URI'));
@@ -49,9 +60,18 @@ class ClientSpec extends ObjectBehavior
         $this->clientCredentialsGrant(
             config('CLIENT_CREDENTIALS_GRANT_CLIENT_ID'),
             config('CLIENT_CREDENTIALS_GRANT_CLIENT_SECRET')
-            )->shouldBeAnObjectContainingKeyAndValue('token_type', 'Bearer');
+        )->shouldBeAnObjectContainingKeyAndValue('token_type', 'Bearer');
     }
         
+    function it_will_return_false_on_client_credentials_grant_if_credentials_are_incorrect()
+    {
+        $this->beConstructedWith(config('OAUTH_SERVER_URI'));
+        $this->clientCredentialsGrant(
+            config('CLIENT_CREDENTIALS_GRANT_CLIENT_ID'),
+            config('CLIENT_CREDENTIALS_GRANT_CLIENT_SECRET') . 'wrong'
+        )->shouldBe(false);
+    }
+    
     function it_can_get_the_token_details()
     {
         $this->beConstructedWith(config('OAUTH_SERVER_URI'), config('ADMIN_SCOPE_TOKEN'));
@@ -73,7 +93,7 @@ class ClientSpec extends ObjectBehavior
     function it_will_fail_to_get_user_details_if_token_does_not_have_admin_scope()
     {
         $this->beConstructedWith(config('OAUTH_SERVER_URI'), config('USER_SCOPE_TOKEN'));
-        $this->shouldThrow('GuzzleHttp\Exception\ClientException')->during('getUserDetails', [config('USER_ID')]);
+        $this->getUserDetails(config('USER_ID'))->shouldBe(false);
     }
     
     function it_can_verify_a_user_password()
@@ -97,20 +117,16 @@ class ClientSpec extends ObjectBehavior
         ])->shouldBeAnObjectContainingKeyAndValue('remember_token', $r);
     }
     
-    function it_will_report_an_attempt_to_update_an_invalid_user_field()
+    function it_will_fail_to_update_an_invalid_user_field()
     {
         $this->beConstructedWith(config('OAUTH_SERVER_URI'), config('ADMIN_SCOPE_TOKEN'));
-        $this->shouldThrow('GuzzleHttp\Exception\ClientException')->during('updateUserDetails', [config('USER_ID'), [
-            'remembers_token' => 123,
-        ]]);
+        $this->updateUserDetails(config('USER_ID'), ['remembers_token' => 123])->shouldBe(false);
     }
     
-    function it_will_report_an_attempt_to_update_an_invalid_user()
+    function it_will_fail_to_update_an_invalid_user()
     {
         $this->beConstructedWith(config('OAUTH_SERVER_URI'), config('ADMIN_SCOPE_TOKEN'));
-        $this->shouldThrow('GuzzleHttp\Exception\ClientException')->during('updateUserDetails', [-1, [
-            'remember_token' => 123,
-        ]]);
+        $this->updateUserDetails(-1, ['remember_token' => 123])->shouldBe(false);
     }
     
     function it_can_create_a_new_user()
@@ -125,15 +141,15 @@ class ClientSpec extends ObjectBehavior
         )->shouldBeAnObjectContainingKeyAndValue('name', $username);
     }
 
-    function it_will_report_an_attempt_to_create_a_user_with_an_invalid_field()
+    function it_will_fail_to_create_a_user_with_an_invalid_field()
     {
         $this->beConstructedWith(config('OAUTH_SERVER_URI'), config('ADMIN_SCOPE_TOKEN'));
         $time = time();
-        $this->shouldThrow('GuzzleHttp\Exception\ClientException')->during('createUser', [[
+        $this->createUser([[
             'names' => 'User' . $time, 
             'email' => $time . '@netsensia.com', 
             'password' => 'Pass' . $time
-        ]]);
+        ]])->shouldBe(false);
     }
     
     public function getMatchers()

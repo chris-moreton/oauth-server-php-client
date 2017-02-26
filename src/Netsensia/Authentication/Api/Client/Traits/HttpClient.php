@@ -93,19 +93,23 @@ trait HttpClient
         if (!empty($this->apiKey) && $includeAuthHeader) {
             return array_merge(
                 $options,
-                ['headers' => [
+                [
+                    'headers' => [
                         'Authorization' => 'Bearer ' . $this->apiKey,
                         'Content-Type' => 'application/json',
                         'Accept' => 'application/json',
-                    ]
+                    ],
+                    'http_errors' => false,
                 ]
             );
         } else {
             return array_merge(
                 $options,
-                ['headers' => [
+                [
+                    'headers' => [
                         'Accept' => 'application/json',
-                    ]
+                    ],
+                    'http_errors' => false,
                 ]
             );
         }
