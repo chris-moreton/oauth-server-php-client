@@ -23,6 +23,17 @@ class ClientSpec extends ObjectBehavior
         )->shouldBeAnObjectContainingKeyAndValue('token_type', 'Bearer');
     }
     
+    function it_can_get_a_bearer_token_using_password_grant_when_api_token_is_set()
+    {
+        $this->beConstructedWith(config('OAUTH_SERVER_URI'), config('ADMIN_SCOPE_TOKEN'));
+        $this->passwordGrant(
+            config('USERNAME'),
+            config('PASSWORD'),
+            config('PASSWORD_GRANT_CLIENT_ID'),
+            config('PASSWORD_GRANT_CLIENT_SECRET')
+            )->shouldBeAnObjectContainingKeyAndValue('token_type', 'Bearer');
+    }
+    
     function it_can_get_a_bearer_token_using_client_credentials_grant()
     {
         $this->beConstructedWith(config('OAUTH_SERVER_URI'));
@@ -30,6 +41,15 @@ class ClientSpec extends ObjectBehavior
             config('CLIENT_CREDENTIALS_GRANT_CLIENT_ID'),
             config('CLIENT_CREDENTIALS_GRANT_CLIENT_SECRET')
         )->shouldBeAnObjectContainingKeyAndValue('token_type', 'Bearer');
+    }
+    
+    function it_can_get_a_bearer_token_using_client_credentials_grant_when_api_token_is_set()
+    {
+        $this->beConstructedWith(config('OAUTH_SERVER_URI'), config('ADMIN_SCOPE_TOKEN'));
+        $this->clientCredentialsGrant(
+            config('CLIENT_CREDENTIALS_GRANT_CLIENT_ID'),
+            config('CLIENT_CREDENTIALS_GRANT_CLIENT_SECRET')
+            )->shouldBeAnObjectContainingKeyAndValue('token_type', 'Bearer');
     }
         
     function it_can_get_the_token_details()
