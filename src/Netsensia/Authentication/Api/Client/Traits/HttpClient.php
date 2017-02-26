@@ -89,8 +89,8 @@ trait HttpClient
 
     }
     
-    protected function opts($options = []) {
-        if (!empty($this->apiKey)) {
+    protected function opts($options = [], $includeAuthHeader = true) {
+        if (!empty($this->apiKey) && $includeAuthHeader) {
             return array_merge(
                 $options,
                 ['headers' => [

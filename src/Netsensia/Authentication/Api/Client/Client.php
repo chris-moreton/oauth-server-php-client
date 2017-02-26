@@ -27,6 +27,7 @@ class Client extends GuzzleClient
                 'client_secret' => $clientSecret,
                 'scope' => $scope,
             ],
+            false,
         ]));
 
         if( $response->getStatusCode() != 200 ){
@@ -56,6 +57,7 @@ class Client extends GuzzleClient
                 'client_secret' => $clientSecret,
                 'scope' => $scope,
             ],
+            false,
         ]));
     
         if( $response->getStatusCode() != 200 ){
