@@ -105,12 +105,6 @@ class ClientSpec extends ObjectBehavior
         $this->beConstructedWith(config('OAUTH_SERVER_URI'), config('ADMIN_SCOPE_TOKEN'));
         $this->getUserDetails(config('USER_ID'))->shouldBeAnObjectContainingKeyAndValue('email', config('USERNAME'));
     }
-
-    function it_will_fail_to_get_user_details_if_token_does_not_have_admin_scope()
-    {
-        $this->beConstructedWith(config('OAUTH_SERVER_URI'), config('USER_SCOPE_TOKEN'));
-        $this->getUserDetails(config('USER_ID'))->shouldBe(false);
-    }
     
     function it_can_verify_a_user_password()
     {
