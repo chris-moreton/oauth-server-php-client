@@ -19,7 +19,8 @@ class ClientSpec extends ObjectBehavior
             config('USERNAME'),
             config('PASSWORD'),
             config('PASSWORD_GRANT_CLIENT_ID'),
-            config('PASSWORD_GRANT_CLIENT_SECRET')
+            config('PASSWORD_GRANT_CLIENT_SECRET'),
+            'read-all-current-user-data'
         )->shouldBeAnObjectContainingKeyAndValue('token_type', 'Bearer');
     }
     
@@ -30,8 +31,9 @@ class ClientSpec extends ObjectBehavior
             config('USERNAME'),
             config('PASSWORD'),
             config('PASSWORD_GRANT_CLIENT_ID'),
-            config('PASSWORD_GRANT_CLIENT_SECRET')
-            )->shouldBeAnObjectContainingKeyAndValue('token_type', 'Bearer');
+            config('PASSWORD_GRANT_CLIENT_SECRET'),
+            'read-all-current-user-data'
+        )->shouldBeAnObjectContainingKeyAndValue('token_type', 'Bearer');
     }
     
     function it_will_return_false_on_password_grant_if_credentials_are_incorrect()
@@ -41,7 +43,8 @@ class ClientSpec extends ObjectBehavior
             config('USERNAME'),
             config('PASSWORD') . 'wrong',
             config('PASSWORD_GRANT_CLIENT_ID'),
-            config('PASSWORD_GRANT_CLIENT_SECRET')
+            config('PASSWORD_GRANT_CLIENT_SECRET'),
+            'read-all-current-user-data'
         )->shouldBe(false);
     }
     
@@ -50,7 +53,8 @@ class ClientSpec extends ObjectBehavior
         $this->beConstructedWith(config('OAUTH_SERVER_URI'));
         $this->clientCredentialsGrant(
             config('CLIENT_CREDENTIALS_GRANT_CLIENT_ID'),
-            config('CLIENT_CREDENTIALS_GRANT_CLIENT_SECRET')
+            config('CLIENT_CREDENTIALS_GRANT_CLIENT_SECRET'),
+            'read-all-current-user-data write-all-current-user-data'
         )->shouldBeAnObjectContainingKeyAndValue('token_type', 'Bearer');
     }
     
@@ -59,7 +63,8 @@ class ClientSpec extends ObjectBehavior
         $this->beConstructedWith(config('OAUTH_SERVER_URI'), config('ADMIN_SCOPE_TOKEN'));
         $this->clientCredentialsGrant(
             config('CLIENT_CREDENTIALS_GRANT_CLIENT_ID'),
-            config('CLIENT_CREDENTIALS_GRANT_CLIENT_SECRET')
+            config('CLIENT_CREDENTIALS_GRANT_CLIENT_SECRET'),
+            'read-all-current-user-data'
         )->shouldBeAnObjectContainingKeyAndValue('token_type', 'Bearer');
     }
         
@@ -68,7 +73,18 @@ class ClientSpec extends ObjectBehavior
         $this->beConstructedWith(config('OAUTH_SERVER_URI'));
         $this->clientCredentialsGrant(
             config('CLIENT_CREDENTIALS_GRANT_CLIENT_ID'),
-            config('CLIENT_CREDENTIALS_GRANT_CLIENT_SECRET') . 'wrong'
+            config('CLIENT_CREDENTIALS_GRANT_CLIENT_SECRET') . 'wrong',
+            'read-all-current-user-data'
+        )->shouldBe(false);
+    }
+    
+    function it_will_return_false_on_client_credentials_grant_if_unknown_scope_is_provided()
+    {
+        $this->beConstructedWith(config('OAUTH_SERVER_URI'));
+        $this->clientCredentialsGrant(
+            config('CLIENT_CREDENTIALS_GRANT_CLIENT_ID'),
+            config('CLIENT_CREDENTIALS_GRANT_CLIENT_SECRET') . 'wrong',
+            'read-all-current-user-data kaleido-scope'
         )->shouldBe(false);
     }
     

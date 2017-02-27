@@ -16,7 +16,7 @@ class Client extends GuzzleClient
     * 
     * @return boolean|mixed
     */
-    public function passwordGrant($username, $password, $clientId, $clientSecret, $scope = '*')
+    public function passwordGrant($username, $password, $clientId, $clientSecret, $scope)
     {
         $response = $this->client()->request('POST', $this->apiBaseUri . '/oauth/token', $this->opts([
             'form_params' => [
@@ -47,7 +47,7 @@ class Client extends GuzzleClient
      *
      * @return boolean|mixed
      */
-    public function clientCredentialsGrant($clientId, $clientSecret, $scope = '*')
+    public function clientCredentialsGrant($clientId, $clientSecret, $scope)
     {
         $response = $this->client()->request('POST', $this->apiBaseUri . '/oauth/token', $this->opts([
             'form_params' => [
