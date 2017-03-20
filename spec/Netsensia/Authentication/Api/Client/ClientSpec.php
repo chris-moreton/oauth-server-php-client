@@ -11,6 +11,12 @@ class ClientSpec extends ObjectBehavior
     {
         $this->shouldHaveType('Netsensia\Authentication\Api\Client\Client');
     }
+
+    function it_can_get_user_details_from_an_email_address()
+    {
+        $this->beConstructedWith(config('OAUTH_SERVER_URI'), adminToken());
+        $this->getUserDetails(config('USERNAME'))->shouldBeAnObjectContainingKeyAndValue('id', config('USER_ID'));
+    }
     
     function it_can_get_a_bearer_token_using_password_grant()
     {
@@ -20,19 +26,19 @@ class ClientSpec extends ObjectBehavior
             config('PASSWORD'),
             config('PASSWORD_GRANT_CLIENT_ID'),
             config('PASSWORD_GRANT_CLIENT_SECRET'),
-            'read-all-current-user-data'
+            'create-users'
         )->shouldBeAnObjectContainingKeyAndValue('token_type', 'Bearer');
     }
     
     function it_can_get_a_bearer_token_using_password_grant_when_api_token_is_set()
     {
-        $this->beConstructedWith(config('OAUTH_SERVER_URI'), config('ADMIN_SCOPE_TOKEN'));
+        $this->beConstructedWith(config('OAUTH_SERVER_URI'), adminToken());
         $this->passwordGrant(
             config('USERNAME'),
             config('PASSWORD'),
             config('PASSWORD_GRANT_CLIENT_ID'),
             config('PASSWORD_GRANT_CLIENT_SECRET'),
-            'read-all-current-user-data'
+            'create-users'
         )->shouldBeAnObjectContainingKeyAndValue('token_type', 'Bearer');
     }
     
@@ -44,7 +50,7 @@ class ClientSpec extends ObjectBehavior
             config('PASSWORD') . 'wrong',
             config('PASSWORD_GRANT_CLIENT_ID'),
             config('PASSWORD_GRANT_CLIENT_SECRET'),
-            'read-all-current-user-data'
+            'create-users'
         )->shouldBe(false);
     }
     
@@ -54,17 +60,17 @@ class ClientSpec extends ObjectBehavior
         $this->clientCredentialsGrant(
             config('CLIENT_CREDENTIALS_GRANT_CLIENT_ID'),
             config('CLIENT_CREDENTIALS_GRANT_CLIENT_SECRET'),
-            'read-all-current-user-data write-all-current-user-data'
+            'create-users'
         )->shouldBeAnObjectContainingKeyAndValue('token_type', 'Bearer');
     }
     
     function it_can_get_a_bearer_token_using_client_credentials_grant_when_api_token_is_set()
     {
-        $this->beConstructedWith(config('OAUTH_SERVER_URI'), config('ADMIN_SCOPE_TOKEN'));
+        $this->beConstructedWith(config('OAUTH_SERVER_URI'), adminToken());
         $this->clientCredentialsGrant(
             config('CLIENT_CREDENTIALS_GRANT_CLIENT_ID'),
             config('CLIENT_CREDENTIALS_GRANT_CLIENT_SECRET'),
-            'read-all-current-user-data'
+            'create-users'
         )->shouldBeAnObjectContainingKeyAndValue('token_type', 'Bearer');
     }
         
@@ -74,7 +80,7 @@ class ClientSpec extends ObjectBehavior
         $this->clientCredentialsGrant(
             config('CLIENT_CREDENTIALS_GRANT_CLIENT_ID'),
             config('CLIENT_CREDENTIALS_GRANT_CLIENT_SECRET') . 'wrong',
-            'read-all-current-user-data'
+            'create-users'
         )->shouldBe(false);
     }
     
@@ -84,43 +90,37 @@ class ClientSpec extends ObjectBehavior
         $this->clientCredentialsGrant(
             config('CLIENT_CREDENTIALS_GRANT_CLIENT_ID'),
             config('CLIENT_CREDENTIALS_GRANT_CLIENT_SECRET') . 'wrong',
-            'read-all-current-user-data kaleido-scope'
+            'create-users kaleido-scope'
         )->shouldBe(false);
     }
     
     function it_can_get_the_token_details()
     {
-        $this->beConstructedWith(config('OAUTH_SERVER_URI'), config('ADMIN_SCOPE_TOKEN'));
+        $this->beConstructedWith(config('OAUTH_SERVER_URI'), userToken());
         $this->tokenDetails()->shouldBeAnObjectContainingKeyAndValue('email', config('USERNAME'));
     }
     
-    function it_can_get_user_details_from_an_email_address()
-    {
-        $this->beConstructedWith(config('OAUTH_SERVER_URI'), config('ADMIN_SCOPE_TOKEN'));
-        $this->getUserDetails(config('USERNAME'))->shouldBeAnObjectContainingKeyAndValue('id', config('USER_ID'));
-    }
-
     function it_can_get_user_details_from_an_id()
     {
-        $this->beConstructedWith(config('OAUTH_SERVER_URI'), config('ADMIN_SCOPE_TOKEN'));
+        $this->beConstructedWith(config('OAUTH_SERVER_URI'), adminToken());
         $this->getUserDetails(config('USER_ID'))->shouldBeAnObjectContainingKeyAndValue('email', config('USERNAME'));
     }
     
     function it_can_verify_a_user_password()
     {
-        $this->beConstructedWith(config('OAUTH_SERVER_URI'), config('ADMIN_SCOPE_TOKEN'));
+        $this->beConstructedWith(config('OAUTH_SERVER_URI'), adminToken());
         $this->verifyPassword(config('USERNAME'), config('PASSWORD'))->shouldBeAnObjectContainingKeyAndValue('verified', true);
     }
     
     function it_can_find_that_a_user_password_is_wrong()
     {
-        $this->beConstructedWith(config('OAUTH_SERVER_URI'), config('ADMIN_SCOPE_TOKEN'));
+        $this->beConstructedWith(config('OAUTH_SERVER_URI'), adminToken());
         $this->verifyPassword(config('USERNAME'), 'qweqwe')->shouldBeAnObjectContainingKeyAndValue('verified', false);
     }
     
     function it_can_update_a_user_remember_token()
     {
-        $this->beConstructedWith(config('OAUTH_SERVER_URI'), config('ADMIN_SCOPE_TOKEN'));
+        $this->beConstructedWith(config('OAUTH_SERVER_URI'), adminToken());
         $r = md5(rand(0, PHP_INT_MAX));
         $this->updateUserDetails(config('USER_ID'), [
             'remember_token' => $r,
@@ -129,19 +129,19 @@ class ClientSpec extends ObjectBehavior
     
     function it_will_fail_to_update_an_invalid_user_field()
     {
-        $this->beConstructedWith(config('OAUTH_SERVER_URI'), config('ADMIN_SCOPE_TOKEN'));
+        $this->beConstructedWith(config('OAUTH_SERVER_URI'), adminToken());
         $this->updateUserDetails(config('USER_ID'), ['remembers_token' => 123])->shouldBe(false);
     }
     
     function it_will_fail_to_update_an_invalid_user()
     {
-        $this->beConstructedWith(config('OAUTH_SERVER_URI'), config('ADMIN_SCOPE_TOKEN'));
+        $this->beConstructedWith(config('OAUTH_SERVER_URI'), adminToken());
         $this->updateUserDetails(-1, ['remember_token' => 123])->shouldBe(false);
     }
     
     function it_can_create_a_new_user()
     {
-        $this->beConstructedWith(config('OAUTH_SERVER_URI'), config('ADMIN_SCOPE_TOKEN'));
+        $this->beConstructedWith(config('OAUTH_SERVER_URI'), adminToken());
         $time = time();
         $username = 'User' . $time;
         $this->createUser([
@@ -153,7 +153,7 @@ class ClientSpec extends ObjectBehavior
 
     function it_will_fail_to_create_a_user_with_an_invalid_field()
     {
-        $this->beConstructedWith(config('OAUTH_SERVER_URI'), config('ADMIN_SCOPE_TOKEN'));
+        $this->beConstructedWith(config('OAUTH_SERVER_URI'), adminToken());
         $time = time();
         $this->createUser([[
             'names' => 'User' . $time, 
