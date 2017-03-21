@@ -17,7 +17,7 @@ function adminToken() {
     $result = $client->clientCredentialsGrant(
         config('CLIENT_CREDENTIALS_GRANT_CLIENT_ID'),
         config('CLIENT_CREDENTIALS_GRANT_CLIENT_SECRET'),
-        'get-user-details-from-email create-users update-users verify-password'
+        '*'
     );
     
     return $result->access_token;
