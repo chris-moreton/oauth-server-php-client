@@ -47,7 +47,9 @@ Development
 
 ### Run the tests
 
-Copy .test.config.example to .test.config and fill in the values.
+    cp spec/.env.example spec/.env 
+    
+and fill in the values.
 
 Then you can run the tests:
 

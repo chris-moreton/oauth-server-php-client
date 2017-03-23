@@ -1,13 +1,14 @@
 <?php
 use Netsensia\Authentication\Api\Client\Client;
+use Dotenv\Dotenv;
 
 include 'vendor/autoload.php';
 
+$dotenv = new Dotenv(__DIR__);
+$dotenv->load();
 
 function config($key) {
-    $spec_config = parse_ini_file('.test.config');
-    
-    return $spec_config[$key];
+    return getenv($key);
 }
 
 function adminToken() {

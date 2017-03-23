@@ -3,4 +3,4 @@
 .buildpath
 vendor/
 bin/
-.test.config
+.env
