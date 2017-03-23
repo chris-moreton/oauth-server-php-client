@@ -26,7 +26,7 @@ class ClientSpec extends ObjectBehavior
             config('PASSWORD'),
             config('PASSWORD_GRANT_CLIENT_ID'),
             config('PASSWORD_GRANT_CLIENT_SECRET'),
-            'create-users'
+            '*'
         )->shouldBeAnObjectContainingKeyAndValue('token_type', 'Bearer');
     }
     
@@ -38,7 +38,7 @@ class ClientSpec extends ObjectBehavior
             config('PASSWORD'),
             config('PASSWORD_GRANT_CLIENT_ID'),
             config('PASSWORD_GRANT_CLIENT_SECRET'),
-            'create-users'
+            '*'
         )->shouldBeAnObjectContainingKeyAndValue('token_type', 'Bearer');
     }
     
@@ -50,7 +50,7 @@ class ClientSpec extends ObjectBehavior
             config('PASSWORD') . 'wrong',
             config('PASSWORD_GRANT_CLIENT_ID'),
             config('PASSWORD_GRANT_CLIENT_SECRET'),
-            'create-users'
+            '*'
         )->shouldBe(false);
     }
     
@@ -60,7 +60,7 @@ class ClientSpec extends ObjectBehavior
         $this->clientCredentialsGrant(
             config('CLIENT_CREDENTIALS_GRANT_CLIENT_ID'),
             config('CLIENT_CREDENTIALS_GRANT_CLIENT_SECRET'),
-            'create-users'
+            '*'
         )->shouldBeAnObjectContainingKeyAndValue('token_type', 'Bearer');
     }
     
@@ -70,7 +70,7 @@ class ClientSpec extends ObjectBehavior
         $this->clientCredentialsGrant(
             config('CLIENT_CREDENTIALS_GRANT_CLIENT_ID'),
             config('CLIENT_CREDENTIALS_GRANT_CLIENT_SECRET'),
-            'create-users'
+            '*'
         )->shouldBeAnObjectContainingKeyAndValue('token_type', 'Bearer');
     }
         
@@ -90,7 +90,7 @@ class ClientSpec extends ObjectBehavior
         $this->clientCredentialsGrant(
             config('CLIENT_CREDENTIALS_GRANT_CLIENT_ID'),
             config('CLIENT_CREDENTIALS_GRANT_CLIENT_SECRET') . 'wrong',
-            'create-users kaleido-scope'
+            'user-read kaleido-scope'
         )->shouldBe(false);
     }
     
