@@ -1,6 +1,7 @@
 # oAuth2 Server PHP Client
 
-https://travis-ci.org/chris-moreton/oauth-server-php-client.svg?branch=master
+[![Build Status](https://travis-ci.org/chris-moreton/oauth-server-php-client.svg?branch=master)](https://travis-ci.org/chris-moreton/oauth-server-php-client)
+
 
 This is a PHP client for the Netsensia authentication server (chris-moreton/oauth-server).
 
