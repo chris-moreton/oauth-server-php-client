@@ -163,7 +163,7 @@ class Client extends GuzzleClient
     
         $response = $this->client()->request('POST', $this->apiBaseUri . '/v1/users', $options);
     
-        if( $response->getStatusCode() != 200 ){
+        if( $response->getStatusCode() != 201 ){
             return $this->log($response, false);
         }
     
