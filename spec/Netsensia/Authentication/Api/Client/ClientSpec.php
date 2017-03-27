@@ -14,7 +14,7 @@ class ClientSpec extends ObjectBehavior
 
     function it_can_get_user_details_from_an_email_address()
     {
-        $this->beConstructedWith(config('OAUTH_SERVER_URI'), adminToken());
+        $this->beConstructedWith(config('OAUTH_SERVER_URI'), userToken());
         $this->getUserDetails(config('USERNAME'))->shouldBeAnObjectContainingKeyAndValue('id', config('USER_ID'));
     }
     
@@ -102,7 +102,7 @@ class ClientSpec extends ObjectBehavior
     
     function it_can_get_user_details_from_an_id()
     {
-        $this->beConstructedWith(config('OAUTH_SERVER_URI'), adminToken());
+        $this->beConstructedWith(config('OAUTH_SERVER_URI'), userToken());
         $this->getUserDetails(config('USER_ID'))->shouldBeAnObjectContainingKeyAndValue('email', config('USERNAME'));
     }
     
