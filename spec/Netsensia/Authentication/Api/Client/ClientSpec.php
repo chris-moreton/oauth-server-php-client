@@ -142,23 +142,24 @@ class ClientSpec extends ObjectBehavior
     function it_can_create_a_new_user()
     {
         $this->beConstructedWith(config('OAUTH_SERVER_URI'), adminToken());
-        $time = time();
-        $username = 'User' . $time;
+        $uniqId = uniqid(null, true);
+        $username = 'User' . $uniqId;
         $this->createUser([
             'name' => $username, 
             'email' => $username . '@netsensia.com', 
-            'password' => 'Pass' . $username]
-        )->shouldBeAnObjectContainingKeyAndValue('name', $username);
+            'password' => 'Pass' . $username
+        ])->shouldBeAnObjectContainingKeyAndValue('name', $username);
     }
 
     function it_will_fail_to_create_a_user_with_an_invalid_field()
     {
         $this->beConstructedWith(config('OAUTH_SERVER_URI'), adminToken());
-        $time = time();
+        $uniqId = uniqid(null, true);
+        $username = 'User' . $uniqId;
         $this->createUser([[
-            'names' => 'User' . $time, 
-            'email' => $time . '@netsensia.com', 
-            'password' => 'Pass' . $time
+            'names' => $username, 
+            'email' => $username . '@netsensia.com', 
+            'password' => 'Pass' . $username
         ]])->shouldBe(false);
     }
     
