@@ -120,7 +120,7 @@ class ClientSpec extends ObjectBehavior
     
     function it_can_update_a_user_remember_token()
     {
-        $this->beConstructedWith(config('OAUTH_SERVER_URI'), adminToken());
+        $this->beConstructedWith(config('OAUTH_SERVER_URI'), userToken());
         $r = md5(rand(0, PHP_INT_MAX));
         $this->updateUserDetails(config('USER_ID'), [
             'remember_token' => $r,
