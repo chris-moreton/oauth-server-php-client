@@ -26,7 +26,7 @@ function adminToken() {
     $result = $client->clientCredentialsGrant(
         config('CLIENT_CREDENTIALS_GRANT_CLIENT_ID'),
         config('CLIENT_CREDENTIALS_GRANT_CLIENT_SECRET'),
-        '*'
+        'admin-read admin-update admin-create verify-password'
     );
     
     return $result->access_token;

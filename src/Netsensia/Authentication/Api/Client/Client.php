@@ -181,7 +181,7 @@ class Client extends GuzzleClient
      *
      * @return boolean|mixed
      */
-    public function tokenDetails()
+    public function userTokenDetails()
     {
         $response = $this->client()->request('GET', $this->apiBaseUri . '/v1/user-token-details', $this->opts([]));
     
@@ -195,4 +195,26 @@ class Client extends GuzzleClient
     
         return $jsonDecode;
     }    
+    
+    /**
+     * Token details
+     *
+     * Get the scopes of the currently-set token
+     *
+     * @return boolean|mixed
+     */
+    public function tokenScopes()
+    {
+        $response = $this->client()->request('GET', $this->apiBaseUri . '/v1/token-scopes', $this->opts([]));
+    
+        if( $response->getStatusCode() != 200 ){
+            return $this->log($response, false);
+        }
+    
+        $jsonDecode = json_decode($response->getBody());
+    
+        $this->log($response, true);
+    
+        return $jsonDecode;
+    }
 }
