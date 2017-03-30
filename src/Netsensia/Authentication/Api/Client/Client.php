@@ -183,7 +183,7 @@ class Client extends GuzzleClient
      */
     public function tokenDetails()
     {
-        $response = $this->client()->request('GET', $this->apiBaseUri . '/v1/token-details', $this->opts([]));
+        $response = $this->client()->request('GET', $this->apiBaseUri . '/v1/user-token-details', $this->opts([]));
     
         if( $response->getStatusCode() != 200 ){
             return $this->log($response, false);
