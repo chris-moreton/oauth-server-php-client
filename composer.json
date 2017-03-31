@@ -3,7 +3,7 @@
     "description": "API Wrapper for the Netsensia authentication server",
     "license": "MIT",
     "require": {
-        "php": ">=5.4.0",
+        "php": ">=7.0",
         "guzzlehttp/guzzle": "dev-master",
         "vlucas/phpdotenv": "^2.4"
     },
