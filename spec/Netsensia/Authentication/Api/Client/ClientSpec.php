@@ -100,12 +100,6 @@ class ClientSpec extends ObjectBehavior
         $this->userTokenDetails()->shouldBeAnObjectContainingKeyAndValue('email', config('USERNAME'));
     }
     
-    function it_can_get_the_token_scopes_for_a_user_token()
-    {
-        $this->beConstructedWith(config('OAUTH_SERVER_URI'), userToken());
-        $this->tokenScopes()->shouldBeAnObjectContainingKeyAndValue('scopes', ['*']);
-    }
-    
     function it_can_get_the_token_scopes_for_an_admin_token()
     {
         $this->beConstructedWith(config('OAUTH_SERVER_URI'), adminToken());
