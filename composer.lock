@@ -4,20 +4,20 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "8844afe190f0a4947039153409853370",
+    "content-hash": "c1585a0fc43405c35246437ae90ed61c",
     "packages": [
         {
             "name": "guzzlehttp/guzzle",
-            "version": "dev-master",
+            "version": "6.2.3",
             "source": {
                 "type": "git",
-                "url": "https://github.com/chris-moreton/guzzle.git",
-                "reference": "77061c178766c4e90a627f9bdacc60f38e931bc2"
+                "url": "https://github.com/guzzle/guzzle.git",
+                "reference": "8d6c6cc55186db87b7dc5009827429ba4e9dc006"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/chris-moreton/guzzle/zipball/77061c178766c4e90a627f9bdacc60f38e931bc2",
-                "reference": "77061c178766c4e90a627f9bdacc60f38e931bc2",
+                "url": "https://api.github.com/repos/guzzle/guzzle/zipball/8d6c6cc55186db87b7dc5009827429ba4e9dc006",
+                "reference": "8d6c6cc55186db87b7dc5009827429ba4e9dc006",
                 "shasum": ""
             },
             "require": {
@@ -29,9 +29,6 @@
                 "ext-curl": "*",
                 "phpunit/phpunit": "^4.0",
                 "psr/log": "^1.0"
-            },
-            "suggest": {
-                "psr/log": "Required for using the Log middleware"
             },
             "type": "library",
             "extra": {
@@ -47,11 +44,7 @@
                     "GuzzleHttp\\": "src/"
                 }
             },
-            "autoload-dev": {
-                "psr-4": {
-                    "GuzzleHttp\\Tests\\": "tests/"
-                }
-            },
+            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
@@ -65,18 +58,15 @@
             "description": "Guzzle is a PHP HTTP client library",
             "homepage": "http://guzzlephp.org/",
             "keywords": [
-                "HTTP client",
                 "client",
                 "curl",
                 "framework",
                 "http",
+                "http client",
                 "rest",
                 "web service"
             ],
-            "support": {
-                "source": "https://github.com/chris-moreton/guzzle/tree/master"
-            },
-            "time": "2017-03-24 10:59:22"
+            "time": "2017-02-28T22:50:30+00:00"
         },
         {
             "name": "guzzlehttp/promises",
@@ -1399,13 +1389,11 @@
     ],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": {
-        "guzzlehttp/guzzle": 20
-    },
+    "stability-flags": [],
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {
-        "php": ">=5.4.0"
+        "php": ">=7.0"
     },
     "platform-dev": []
 }

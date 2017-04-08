@@ -21,23 +21,31 @@ Usage
     
 ## Client Credentials Grant
 
-	$response = $client->clientGrant($clientId, $clientSecret, $scope)
+    $response = $client->clientGrant($clientId, $clientSecret, $scope)
       
 ## Password Check
 
-	$response = $client->verifyPassword($email, $password)
+    $response = $client->verifyPassword($email, $password)
 
 ## Create User
 
-	$response = $client->createUser(['email'=>'test@example.com', 'name'=>'Test', 'password'=>'secret'])
+    $response = $client->createUser(['email'=>'test@example.com', 'name'=>'Test', 'password'=>'secret'])
 	  
 ## Get User Details
 
-	$response = $client->getUserDetails($userId)
+    $response = $client->getUserDetails($userId)
 
 ## Update User
 
-	$response = $client->updateUserDetails($userId, ['email'=>'test@example.com', 'name'=>'Test', 'password'=>'secret', 'remember_token'=>'abcd1234'])
+    $response = $client->updateUserDetails($userId, ['email'=>'test@example.com', 'name'=>'Test', 'password'=>'secret', 'remember_token'=>'abcd1234'])
+
+## Get User Token Details
+
+    $response = $client->userTokenDetails()
+
+## Get Scopes from Client Credentials Token
+
+    $response = $client->tokenScopes()
 
 Development
 -----------

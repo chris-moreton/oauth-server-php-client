@@ -3,9 +3,9 @@
     "description": "API Wrapper for the Netsensia authentication server",
     "license": "MIT",
     "require": {
-        "php": ">=5.4.0",
-        "guzzlehttp/guzzle": "dev-master",
-        "vlucas/phpdotenv": "^2.4"
+        "php": ">=7.0",
+        "vlucas/phpdotenv": "^2.4",
+        "guzzlehttp/guzzle": "^6.2"
     },
     "require-dev": {
         "phpspec/phpspec": "~2.0"
@@ -15,11 +15,5 @@
     },
     "autoload": {
         "psr-4": {"Netsensia\\Authentication\\Api\\Client\\": "src/Netsensia/Authentication/Api/Client/"}
-    },
-    "repositories": [
-        {
-            "type": "vcs",
-            "url": "https://github.com/chris-moreton/guzzle"
-        }
-    ]
+    }
 }
